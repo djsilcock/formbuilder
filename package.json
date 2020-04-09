@@ -1,0 +1,30 @@
+{
+  "name": "formbuilder",
+  "version": "1.0.0",
+  "description": "formbuilder component for datacollection",
+  "module": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djsilcock/formbuilder.git"
+  },
+  "author": "Daniel Silcock",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/djsilcock/formbuilder/issues"
+  },
+  "homepage": "https://github.com/djsilcock/formbuilder#readme",
+  "dependencies": {
+    "formik": "^2.1.4",
+    "immutable": "^4.0.0-rc.12",
+    "semantic-ui-calendar-react": "^0.14.4",
+    "semantic-ui-react": "^0.88.0",
+    "yup": "^0.28.0"
+  },
+  "peerDependencies":{
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+}
+}
