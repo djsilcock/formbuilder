@@ -3,7 +3,6 @@ import React from "react";
 import { Modal } from "semantic-ui-react";
 import { useFormikContext } from "formik";
 //import PropTypes from "prop-types";
-export { queueModal } from "./utils/queueModal";
 import { InnerFormContainer } from "./innerform";
 
 function queueModal({ context, name, vars, status }) {

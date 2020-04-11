@@ -2,7 +2,7 @@
 
 import React, { useMemo } from "react";
 import { Form, Message, Table } from "semantic-ui-react";
-import { useFormikContext, ErrorMessage, setIn } from "formik";
+import { ErrorMessage, setIn } from "formik";
 import PropTypes from "prop-types";
 import { RadioComponent, CheckboxComponent } from "./checkbox";
 import { DatePickerComponent } from "./datepicker";
@@ -21,13 +21,13 @@ const FormRow = React.memo(function({
   required,
   error,
   touched,
+  formik,
   ...props
 }) {
-  const context = useFormikContext();
-
+  
   displayif = displayif || (() => true);
   if (Component.isInvisible) return <Component name={name} {...props} />;
-  if (!displayif(context)) return null;
+  if (!displayif(formik)) return null;
   return (
     <Table.Row>
       <Table.Cell width={8}>
@@ -59,26 +59,6 @@ FormRow.propTypes = {
   required: PropTypes.bool,
   children: PropTypes.any
 };
-
-/* function createYupSchema(formdef){
-	const validfuncs={}
-	formdef.forEach((fielddef) =>{
-		const fieldname="_." + toPath(fielddef.name).join('.')
-		const root=fieldname.substring(0,fieldname.lastIndexOf('.'))
-		const leaf=fieldname.substring(fieldname.lastIndexOf('.')+1)
-		validfuncs[fieldname] =fielddef.validation || Yup.mixed()
-		validfuncs[root]=validfuncs[root] || Yup.object().shape({})
-		})
-	Object.keys(validfuncs).sort().reverse().forEach(
-		(fieldname)=>{
-			if (fieldname=='_') return
-			const root=fieldname.substring(0,fieldname.lastIndexOf('.'))
-			const leaf=fieldname.substring(fieldname.lastIndexOf('.')+1)
-			validfuncs[root]=validfuncs[root].shape({[leaf]:validfuncs[fieldname]})
-			}
-	)
-	return validfuncs._
-}; */
 
 function makeComponentList(formdef) {
   var formvalidate = undefined;

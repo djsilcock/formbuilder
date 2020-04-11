@@ -21,15 +21,7 @@ export function InnerFormContainer({
     effects,
     listeners
   } = formdef;
-  const dispatch = React.useCallback(e => {
-    const context = useFormikContext();
-    const listeners = context.status.listeners[e.type];
-    return Promise.all(
-      listeners.map(l => {
-        l({ context, ...e });
-      })
-    );
-  });
+
   const validation = {
     [formvalidate?.__isYupSchema__
       ? "validationSchema"
@@ -39,20 +31,26 @@ export function InnerFormContainer({
     <div>
       <Formik
         initialStatus={Object.assign(initialStatus || {}, {
-          modalQueue: [],
-          listeners,
-          dispatch
+          modalQueue: []
         })}
         initialValues={merge(defaultValues, initialValues)}
         {...validation}
         onSubmit={onSubmit}
       >
         {formikprops => {
+          const dispatch = React.useCallback(e => {
+            const eventListeners = listeners[e.type] || [];
+            return Promise.all(
+              eventListeners.map(l => {
+                l({ context, ...e });
+              })
+            );
+          });
           effects.forEach(e => e(formikprops));
           return (
             <Form action={action}>
               <Table selectable>
-                <Table.Body>{components}</Table.Body>
+                <Table.Body>{components.map((c) => React.cloneElement(c, { formik: formikprops,dispatch }))}</Table.Body>
               </Table>
               <Button
                 icon="check"

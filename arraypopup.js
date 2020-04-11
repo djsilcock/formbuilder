@@ -2,7 +2,10 @@
 import React from "react";
 import { Button } from "semantic-ui-react";
 import { useFormikContext, FieldArray, useField } from "formik";
-import { queueModal } from "./utils/queueModal";
+
+function queueModal({ context, ...others }) {
+  return context.status.dispatch({type:'queueModal',...others})
+}
 export function ArrayPopupComponent({
   validate,
   name,
@@ -10,25 +13,34 @@ export function ArrayPopupComponent({
   addButton,
   modalForm,
   initVars = () => ({}),
-  initStatus = () => ({})
+  initStatus = () => ({}),
+  controlFlow,
+  
 }) {
+  const formik=useFormikContext()
   const [field] = useField({ name, type: "select", validate });
-  const formik = useFormikContext();
   // end hooks
+  const popup = async (vars) => {
+    const values = await queueModal({
+      context: formik,
+      name: modalForm,
+      vars,
+      status: initStatus(formik)
+    });
+    return values
+  }
+  controlFlow = controlFlow || (({ value }) => popup(value))
+
   return (
     <FieldArray name={name}>
       {arrayhelpers => (
         <>
-          {field.value.map((subfield, index) =>
+          {(field.value || []).map((value, index) =>
             summary({
-              value: subfield,
+              value,
               remove: () => arrayhelpers.remove(index),
               popup: async () => {
-                const values = await queueModal(formik, {
-                  name: modalForm,
-                  vars: subfield,
-                  status: initStatus(formik)
-                });
+                const values = await controlFlow({ popup, value, ctx: formik, index })
                 arrayhelpers.replace(index, values);
               }
             })
@@ -41,13 +53,12 @@ export function ArrayPopupComponent({
                 as="a"
                 onClick={evt => {
                   evt.preventDefault();
-                  formik.status
-                    .dispatch({
-                      type: "queueModal",
-                      name: modalForm,
-                      vars: initVars(formik),
-                      status: initStatus(formik)
-                    })
+                  queueModal({
+                    context: formik,
+                    name: modalForm,
+                    vars: initVars(formik),
+                    status: initStatus(formik)
+                  })
                     .then(result => {
                       arrayhelpers.push(result[0]);
                     })
