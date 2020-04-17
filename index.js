@@ -1,8 +1,7 @@
 /*eslint-disable react/prop-types*/
 
 import React, { useMemo } from "react";
-import { Form, Message, Table } from "semantic-ui-react";
-import { ErrorMessage, setIn } from "formik";
+import { setIn } from "formik";
 import PropTypes from "prop-types";
 import { RadioComponent, CheckboxComponent } from "./checkbox";
 import { DatePickerComponent } from "./datepicker";
@@ -12,53 +11,7 @@ import { DropdownComponent } from "./dropdown";
 import { InnerFormContainer } from "./innerform";
 import { ModalComponent } from "./modal";
 import { merge } from "lodash";
-const FormRow = React.memo(function({
-  name,
-  component: Component,
-  displayif,
-  label,
-  helptext,
-  required,
-  error,
-  touched,
-  formik,
-  ...props
-}) {
-  
-  displayif = displayif || (() => true);
-  if (Component.isInvisible) return <Component name={name} {...props} />;
-  if (!displayif(formik)) return null;
-  return (
-    <Table.Row>
-      <Table.Cell width={8}>
-        <Form.Field required={required} error={!!error && touched}>
-          <label>{label}</label>
-        </Form.Field>
-        {helptext ? <Message info>{`${helptext}`}</Message> : null}
-        <ErrorMessage name={name}>
-          {msg => (
-            <Message error visible>
-              {`${JSON.stringify(msg)}`}
-            </Message>
-          )}
-        </ErrorMessage>
-      </Table.Cell>
-      <Table.Cell width={8}>
-        <Component name={name} {...props} />
-      </Table.Cell>
-    </Table.Row>
-  );
-});
-FormRow.displayName = "FormRow";
-FormRow.propTypes = {
-  valid: PropTypes.bool,
-  errors: PropTypes.any,
-  display: PropTypes.bool,
-  label: PropTypes.string,
-  helptext: PropTypes.string,
-  required: PropTypes.bool,
-  children: PropTypes.any
-};
+import  FormRow  from "./FormRow";
 
 function makeComponentList(formdef) {
   var formvalidate = undefined;
@@ -104,7 +57,7 @@ function makeComponentList(formdef) {
         : fielddef.validation?.(v);
     if (Component)
       components.push(
-        <FormRow key={fielddef.name} component={Component} {...fielddef} />
+        <Component key={fielddef.name} {...fielddef} />
       );
     setIn(defaultValues, fielddef.name, fielddef.defaultvalue);
   });
