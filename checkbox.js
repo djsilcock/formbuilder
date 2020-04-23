@@ -2,47 +2,33 @@
 import React, { useMemo } from "react";
 import { chunk } from "lodash";
 import { Grid } from "semantic-ui-react";
-import { FastField, useFormikContext } from "formik";
+import { Controller } from "react-hook-forms";
 import PropTypes from "prop-types";
 import { Form } from "semantic-ui-react";
+import FormRow from "./FormRow";
 
 export function BaseCheckboxComponent({
   Component,
   validate,
-  onClickFactory,
   numCols,
   options,
-  name
+  name,
+  ...props
 }) {
-  options = options || useFormikContext().status.options?.[name];
+  options = options;
   const WrappedCheckbox = ({ value: boxValue, label }) => {
-    const renderfunc = ({
-      field: { checked },
-      meta: { value: fieldValue },
-      form: { setFieldValue }
-    }) => {
-      const onClick = onClickFactory({
-        name,
-        fieldValue,
-        boxValue,
-        setFieldValue
-      });
-      return (
-        <Component
-          name={name}
-          value={boxValue}
-          checked={checked}
-          onClick={onClick}
-          label={label}
-        />
-      );
-    };
     return (
-      <FastField name={name} validate={validate} value={boxValue}>
-        {renderfunc}
-      </FastField>
+      <Controller
+        as={Component}
+        name={name}
+        rules={validate}
+        value={boxValue}
+        label={label}
+        {...props}
+      />
     );
   };
+
   return useMemo(() => {
     var buttons = options.map(([val, btnlabel]) => (
       <WrappedCheckbox key={val} value={val} label={btnlabel} />
@@ -62,7 +48,7 @@ BaseCheckboxComponent.propTypes = {
   Component: PropTypes.any,
   numCols: PropTypes.number,
   options: PropTypes.array,
-  optionsfrom: PropTypes.func
+  optionsfrom: PropTypes.func,
 };
 
 export function RadioComponent(props) {
@@ -71,10 +57,6 @@ export function RadioComponent(props) {
       Component={Form.Radio}
       type="radio"
       numCols={1}
-      ischecked={(f, b) => f == b}
-      onClickFactory={({ name, boxValue, setFieldValue }) => () => {
-        setFieldValue(name, boxValue);
-      }}
       {...props}
     />
   );
@@ -85,21 +67,15 @@ export function CheckboxComponent(props) {
       Component={Form.Checkbox}
       type="checkbox"
       numCols={2}
-      ischecked={(f, b) => f.includes?.(b)}
-      onClickFactory={({ name, boxValue, fieldValue, setFieldValue }) => (
-        evt,
-        data
-      ) => {
-        if (data.checked) {
-          setFieldValue(name, [boxValue, ...fieldValue]);
-        } else {
-          setFieldValue(
-            name,
-            fieldValue.filter(v => v != boxValue)
-          );
-        }
-      }}
       {...props}
     />
   );
+}
+
+export function RadioField(props) {
+  return <FormRow component={RadioComponent} {...props} />;
+}
+
+export function CheckboxField(props) {
+  return <FormRow component={CheckboxComponent} {...props} />;
 }

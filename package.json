@@ -19,6 +19,7 @@
   "dependencies": {
     "formik": "^2.1.4",
     "immutable": "^4.0.0-rc.12",
+    "react-hooks-forms": "^0.5.0",
     "semantic-ui-calendar-react": "^0.14.4",
     "semantic-ui-react": "^0.88.0",
     "yup": "^0.28.0"

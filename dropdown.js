@@ -4,86 +4,57 @@ import React, { useMemo, useCallback } from "react";
 import { get } from "lodash";
 
 import { Dropdown } from "semantic-ui-react";
-import { useFormikContext, useField } from "formik";
+import { useFormContext, Controller } from "react-hook-forms";
 import PropTypes from "prop-types";
+import { FormRow } from "./FormRow";
 
 export function DropdownComponent({
   search,
   validate,
   addItem,
-  dependencies,
   placeholder,
   closeOnChange = true,
   name,
   options,
   multiple,
-  allowNew
+  allowNew,
 }) {
-  const [field, meta] = useField({
-    name,
-    type: "select",
-    multiple,
-    validate,
-    dependencies
-  });
-  const formik = useFormikContext();
-
-  const _options = options || formik.status?.options?.[name] || [];
-
-  const onChange = useCallback(
-    (e, { value }) => formik.setFieldValue(name, value),
-    []
-  );
+  const formctx = useFormContext();
+  const onChange = useCallback((e, { value }) => value, []);
   const renderLabel = useCallback(
     ({ text, color }) => ({ content: text, color }),
     []
   );
   const onAddItem = useCallback(
     async (e, { value }) => {
-      const newvalue = (await addItem(value, formik))[0];
+      const newvalue = await addItem(value);
       if (newvalue)
-        formik.setFieldValue(
+        formctx.setValue(
           name,
-          multiple
-            ? get(formik, ["values", name]).concat([newvalue])
-            : newvalue.value
+          multiple ? formctx.getValues(name).concat([newvalue]) : newvalue.value
         );
     },
-    [formik]
+    [formctx]
   );
-  return useMemo(
-    () => (
-      <Dropdown
-        placeholder={placeholder}
-        fluid
-        search={search || false}
-        selection
-        options={_options}
-        allowAdditions={allowNew || false}
-        multiple={multiple}
-        name={name}
-        error={!!meta.error && meta.touched}
-        onChange={onChange}
-        renderLabel={renderLabel}
-        onAddItem={onAddItem}
-        value={field.value}
-        closeOnChange={closeOnChange}
-      />
-    ),
-    [
-      placeholder,
-      search,
-      _options,
-      allowNew,
-      multiple,
-      name,
-      meta.error,
-      meta.touched,
-      onChange,
-      renderLabel,
-      onAddItem,
-      field.value
-    ]
+  return (
+    <Controller
+      as={Dropdown}
+      control={formctx.control}
+      placeholder={placeholder}
+      fluid
+      search={search || false}
+      selection
+      options={options}
+      allowAdditions={allowNew || false}
+      multiple={multiple}
+      name={name}
+      error={!!get(formctx.errors, name)}
+      onChange={onChange}
+      renderLabel={renderLabel}
+      onAddItem={onAddItem}
+      rules={validate}
+      closeOnChange={closeOnChange}
+    />
   );
 }
 DropdownComponent.propTypes = {
@@ -98,5 +69,9 @@ DropdownComponent.propTypes = {
   displayif: PropTypes.func,
   options: PropTypes.array,
   multiple: PropTypes.bool,
-  allowNew: PropTypes.bool
+  allowNew: PropTypes.bool,
 };
+
+export function DropdownField(props) {
+  return <FormRow component={DropdownComponent} {...props} />;
+}

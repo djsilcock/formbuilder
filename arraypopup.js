@@ -1,76 +1,63 @@
 /*eslint-disable react/prop-types*/
 import React from "react";
 import { Button } from "semantic-ui-react";
-import { useFormikContext, FieldArray, useField } from "formik";
-
-function queueModal({ context, ...others }) {
-  return context.status.dispatch({type:'queueModal',...others})
-}
+import { useFormContext } from "react-hook-forms";
+import FormRow from "./FormRow";
 export function ArrayPopupComponent({
   validate,
   name,
   summary,
-  addButton,
-  modalForm,
+  canAdd,
+  ModalForm,
+  onEditItem,
   initVars = () => ({}),
   initStatus = () => ({}),
   controlFlow,
-  
 }) {
-  const formik=useFormikContext()
-  const [field] = useField({ name, type: "select", validate });
-  // end hooks
-  const popup = async (vars) => {
-    const values = await queueModal({
-      context: formik,
-      name: modalForm,
-      vars,
-      status: initStatus(formik)
-    });
-    return values
-  }
-  controlFlow = controlFlow || (({ value }) => popup(value))
-
-  return (
-    <FieldArray name={name}>
-      {arrayhelpers => (
-        <>
-          {(field.value || []).map((value, index) =>
-            summary({
-              value,
-              remove: () => arrayhelpers.remove(index),
-              popup: async () => {
-                const values = await controlFlow({ popup, value, ctx: formik, index })
-                arrayhelpers.replace(index, values);
-              }
-            })
-          )}
-          {addButton ? (
-            <div>
-              <Button
-                icon="add"
-                type="button"
-                as="a"
-                onClick={evt => {
-                  evt.preventDefault();
-                  queueModal({
-                    context: formik,
-                    name: modalForm,
-                    vars: initVars(formik),
-                    status: initStatus(formik)
-                  })
-                    .then(result => {
-                      arrayhelpers.push(result[0]);
-                    })
-                    .catch(() => {
-                      return;
-                    });
-                }}
-              />
-            </div>
-          ) : null}
-        </>
-      )}
-    </FieldArray>
+  const formctx = useFormContext();
+  const modalController = React.useRef(null);
+  const editFunc = React.useCallback(
+    (values) => {
+      if (onEditItem) return onEditItem(values);
+      if (!!ModalForm) return modalController.current.open(values);
+    },
+    [onEditItem, ModalForm]
   );
+  const arrayhelpers = useFieldArray({ name });
+  return (
+    <>
+      {arrayhelpers.fields.map((value, index) =>
+        summary({
+          value,
+          remove: () => arrayhelpers.remove(index),
+          popup: async () => {
+            arrayhelpers.replace(index, await editFunc(value));
+          },
+        })
+      )}
+      {canAdd ? (
+        <div>
+          <Button
+            icon="add"
+            type="button"
+            as="a"
+            onClick={(evt) => {
+              evt.preventDefault();
+              editFunc(initVars())
+                .then(arrayhelpers.append)
+                .catch(() => {
+                  return;
+                });
+            }}
+          />
+        </div>
+      ) : null}
+      {ModalForm
+        ? React.cloneElement(ModalForm, { ref: modalController })
+        : null}
+    </>
+  );
+}
+export function ArrayPopupField(props) {
+  return <FormRow component={ArrayPopupComponent} {...props} />;
 }
