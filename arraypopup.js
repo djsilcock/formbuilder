@@ -1,6 +1,6 @@
 /*eslint-disable react/prop-types*/
 import React from "react";
-import { Button } from "semantic-ui-react";
+import { Button } from "./components";
 import { useFormContext } from "react-hook-forms";
 import FormRow from "./FormRow";
 export function ArrayPopupComponent({

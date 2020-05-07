@@ -2,10 +2,10 @@
 import React, { useMemo } from "react";
 import { chunk } from "lodash";
 import { Grid } from "semantic-ui-react";
-import { Controller } from "react-hook-forms";
 import PropTypes from "prop-types";
-import { Form } from "semantic-ui-react";
+import { Form, Radio, Checkbox } from "./components";
 import FormRow from "./FormRow";
+import { useFormContext } from "react-hooks-forms";
 
 export function BaseCheckboxComponent({
   Component,
@@ -15,23 +15,18 @@ export function BaseCheckboxComponent({
   name,
   ...props
 }) {
-  options = options;
-  const WrappedCheckbox = ({ value: boxValue, label }) => {
-    return (
-      <Controller
-        as={Component}
-        name={name}
-        rules={validate}
-        value={boxValue}
-        label={label}
-        {...props}
-      />
-    );
-  };
+  const { register } = useFormContext();
 
   return useMemo(() => {
     var buttons = options.map(([val, btnlabel]) => (
-      <WrappedCheckbox key={val} value={val} label={btnlabel} />
+      <Component
+        key={val}
+        name={name}
+        ref={register({ rules: validate })}
+        value={val}
+        label={btnlabel}
+        {...props}
+      />
     ));
     const colLength = Math.ceil(buttons.length / numCols);
     const cols = chunk(buttons, colLength).map((column, idx) => (
@@ -54,7 +49,7 @@ BaseCheckboxComponent.propTypes = {
 export function RadioComponent(props) {
   return (
     <BaseCheckboxComponent
-      Component={Form.Radio}
+      Component={Radio}
       type="radio"
       numCols={1}
       {...props}
@@ -64,7 +59,7 @@ export function RadioComponent(props) {
 export function CheckboxComponent(props) {
   return (
     <BaseCheckboxComponent
-      Component={Form.Checkbox}
+      Component={Checkbox}
       type="checkbox"
       numCols={2}
       {...props}

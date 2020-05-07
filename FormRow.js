@@ -10,6 +10,8 @@ function FormRow({
   label,
   helptext,
   required,
+  children,
+  innerRef,
   ...props
 }) {
   const formContext = useFormContext();
@@ -29,7 +31,13 @@ function FormRow({
         )}
       </Table.Cell>
       <Table.Cell width={8}>
-        <Component name={name} {...props} />
+        <Form.Field error={thisFieldHasError}>
+          {Component ? (
+            <Component ref={innerRef} name={name} {...props} />
+          ) : (
+            children
+          )}
+        </Form.Field>
       </Table.Cell>
     </Table.Row>
   );

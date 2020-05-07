@@ -1,22 +1,21 @@
 /*eslint-disable react/prop-types*/
 import React from "react";
-import { Form } from "semantic-ui-react";
-import { Controller } from "react-hook-forms";
+import { Form, Input, TextArea } from "./components";
+import { useFormContext } from "react-hook-forms";
 import FormRow from "./FormRow";
-export function InputComponent({ name, validate }) {
+export function TextField({ validate, multiline, ...props }) {
+  const { register } = useFormContext();
+  const Component = multiline ? TextArea : Input;
   return (
     <FormRow
-      component={<Controller as={Form.Input} name={name} rules={validate} />}
+      component={Component}
+      innerRef={register({ rules: validate })}
+      {...props}
     />
   );
 }
-export function TextAreaComponent({ name, validate }) {
-  return (
-    <FormRow
-      component={<Controller as={Form.TextArea} name={name} rules={validate} />}
-    />
-  );
-}
+
 export function HiddenComponent({ name }) {
-  return <Controller name={name} as="input" type="hidden" />;
+  const { register } = useFormContext();
+  return <input ref={register} name={name} />;
 }
