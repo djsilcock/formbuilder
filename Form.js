@@ -1,6 +1,6 @@
 import React from "react";
-import { Form as SUIForm } from "semantic-ui-react";
-import { useForm, FormContext } from "react-hook-forms";
+import { Form as SUIForm,Table,Button } from "semantic-ui-react";
+import { useForm, FormContext } from "react-hook-form";
 export const Form = React.forwardRef(function Form(
   {
     onSubmit,
@@ -20,6 +20,7 @@ export const Form = React.forwardRef(function Form(
     validateCriteriaMode = "firstErrorDetected",
     submitFocusError = true,
     children,
+	action
   },
   ref
 ) {

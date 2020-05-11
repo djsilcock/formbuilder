@@ -1,8 +1,8 @@
 /*eslint-disable react/prop-types*/
 import React from "react";
 import { DateInput } from "semantic-ui-calendar-react";
-import { Controller } from "react-hook-forms";
-import FormRow from "./FormRow";
+import { Controller } from "react-hook-form";
+import { FormRow } from "./FormRow";
 export function DatePickerComponent({ name, validate, placeholder }) {
   //eslint-disable-next-line no-unused-vars
   return (
@@ -11,7 +11,10 @@ export function DatePickerComponent({ name, validate, placeholder }) {
       name={name}
       placeholder={placeholder}
       iconPosition="left"
-      onChange={(e, { value }) => value}
+      onChange={([e, props]) => {
+        console.log(e, props);
+        return props?.value;
+      }}
       rules={validate}
     />
   );

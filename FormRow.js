@@ -1,9 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Form, Message, Table } from "semantic-ui-react";
-import { useFormContext } from "react-hook-forms";
+import { useFormContext } from "react-hook-form";
 import { get } from "lodash";
 
-function FormRow({
+const FormRow = React.memo(function ({
   name,
   component: Component,
   displayif,
@@ -20,8 +21,8 @@ function FormRow({
   return (
     <Table.Row>
       <Table.Cell width={8}>
-        <Form.Field required={required} error={thisFieldHasError}>
-          <label>{label}</label>
+        <Form.Field required={required} error={!!errorMessage}>
+          <label htmlFor={props.id}>{label}</label>
         </Form.Field>
         {helptext ? <Message info>{`${helptext}`}</Message> : null}
         {errorMessage && (
@@ -31,9 +32,9 @@ function FormRow({
         )}
       </Table.Cell>
       <Table.Cell width={8}>
-        <Form.Field error={thisFieldHasError}>
+        <Form.Field error={!!errorMessage}>
           {Component ? (
-            <Component ref={innerRef} name={name} {...props} />
+            <Component innerRef={innerRef} name={name} {...props} />
           ) : (
             children
           )}
@@ -41,7 +42,7 @@ function FormRow({
       </Table.Cell>
     </Table.Row>
   );
-}
+});
 FormRow.propTypes = {
   valid: PropTypes.bool,
   errors: PropTypes.any,
@@ -52,4 +53,4 @@ FormRow.propTypes = {
   children: PropTypes.any,
 };
 
-export default React.memo(FormRow);
+export { FormRow };

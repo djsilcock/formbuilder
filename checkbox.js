@@ -3,9 +3,9 @@ import React, { useMemo } from "react";
 import { chunk } from "lodash";
 import { Grid } from "semantic-ui-react";
 import PropTypes from "prop-types";
-import { Form, Radio, Checkbox } from "./components";
-import FormRow from "./FormRow";
-import { useFormContext } from "react-hooks-forms";
+import { Radio, Checkbox } from "./components";
+import { FormRow } from "./FormRow";
+import { useFormContext } from "react-hook-form";
 
 export function BaseCheckboxComponent({
   Component,
@@ -13,20 +13,25 @@ export function BaseCheckboxComponent({
   numCols,
   options,
   name,
+  type,
   ...props
 }) {
   const { register } = useFormContext();
 
   return useMemo(() => {
     var buttons = options.map(([val, btnlabel]) => (
-      <Component
-        key={val}
-        name={name}
-        ref={register({ rules: validate })}
-        value={val}
-        label={btnlabel}
-        {...props}
-      />
+      <div key={val}>
+        <div className={type == "radio" ? "ui radio checkbox" : "ui checkbox"}>
+          <input
+            type={type}
+            id={`${name}-${val}`}
+            class="hidden"
+            name={name}
+            ref={register({ rules: validate })}
+          />
+          <label htmlFor={`${name}-${val}`}>{btnlabel}</label>
+        </div>
+      </div>
     ));
     const colLength = Math.ceil(buttons.length / numCols);
     const cols = chunk(buttons, colLength).map((column, idx) => (
@@ -47,24 +52,10 @@ BaseCheckboxComponent.propTypes = {
 };
 
 export function RadioComponent(props) {
-  return (
-    <BaseCheckboxComponent
-      Component={Radio}
-      type="radio"
-      numCols={1}
-      {...props}
-    />
-  );
+  return <BaseCheckboxComponent type="radio" numCols={1} {...props} />;
 }
 export function CheckboxComponent(props) {
-  return (
-    <BaseCheckboxComponent
-      Component={Checkbox}
-      type="checkbox"
-      numCols={2}
-      {...props}
-    />
-  );
+  return <BaseCheckboxComponent type="checkbox" numCols={2} {...props} />;
 }
 
 export function RadioField(props) {

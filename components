@@ -1,3 +1,0 @@
-export {Button} from 'semantic-ui-react'
-export { Form,Input,TextArea} from "semantic-ui-react";
-export { Form,Radio,Checkbox } from "semantic-ui-react";

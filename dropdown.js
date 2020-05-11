@@ -4,7 +4,7 @@ import React, { useMemo, useCallback } from "react";
 import { get } from "lodash";
 
 import { Dropdown } from "semantic-ui-react";
-import { useFormContext, Controller } from "react-hook-forms";
+import { useFormContext, Controller } from "react-hook-form";
 import PropTypes from "prop-types";
 import { FormRow } from "./FormRow";
 
@@ -20,7 +20,7 @@ export function DropdownComponent({
   allowNew,
 }) {
   const formctx = useFormContext();
-  const onChange = useCallback((e, { value }) => value, []);
+  const onChange = useCallback(([e, { value }]) => value, []);
   const renderLabel = useCallback(
     ({ text, color }) => ({ content: text, color }),
     []
@@ -44,7 +44,7 @@ export function DropdownComponent({
       fluid
       search={search || false}
       selection
-      options={options}
+      options={options.map(([value, text]) => ({ value, text }))}
       allowAdditions={allowNew || false}
       multiple={multiple}
       name={name}

@@ -1,20 +1,15 @@
 /*eslint-disable react/prop-types*/
 import React from "react";
 import { Button } from "./components";
-import { useFormContext } from "react-hook-forms";
-import FormRow from "./FormRow";
+import { FormRow } from "./FormRow";
 export function ArrayPopupComponent({
-  validate,
   name,
   summary,
   canAdd,
   ModalForm,
   onEditItem,
   initVars = () => ({}),
-  initStatus = () => ({}),
-  controlFlow,
 }) {
-  const formctx = useFormContext();
   const modalController = React.useRef(null);
   const editFunc = React.useCallback(
     (values) => {

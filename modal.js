@@ -3,7 +3,6 @@ import React from "react";
 import { Modal } from "semantic-ui-react";
 //import PropTypes from "prop-types";
 import { Form } from "./Form";
-import React from "react";
 
 export const ModalComponent = React.forwardRef(function ({ children }, ref) {
   const [modalState, setModalState] = React.useState(null);
