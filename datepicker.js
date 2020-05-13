@@ -9,6 +9,7 @@ export function DatePickerComponent({ name, validate, placeholder }) {
     <Controller
       as={DateInput}
       name={name}
+      id={name}
       placeholder={placeholder}
       iconPosition="left"
       onChange={([e, props]) => {
@@ -20,5 +21,5 @@ export function DatePickerComponent({ name, validate, placeholder }) {
   );
 }
 export function DatePickerField(props) {
-  return <FormRow component={DatePickerComponent} {...props} />;
+  return <FormRow component={DatePickerComponent} id={props.name} {...props} />;
 }

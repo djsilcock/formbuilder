@@ -9,7 +9,7 @@ export function TextField({ validate, multiline, ...props }) {
   return (
     <FormRow
       component={Component}
-      id={`${name}-input`}
+      id={`${props.name}-input`}
       refCallback={register({ rules: validate })}
       {...props}
     />

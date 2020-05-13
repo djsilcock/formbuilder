@@ -41,6 +41,7 @@ export function DropdownComponent({
       as={Dropdown}
       control={formctx.control}
       placeholder={placeholder}
+      id={name}
       fluid
       search={search || false}
       selection
@@ -73,5 +74,5 @@ DropdownComponent.propTypes = {
 };
 
 export function DropdownField(props) {
-  return <FormRow component={DropdownComponent} {...props} />;
+  return <FormRow component={DropdownComponent} id={props.name} {...props} />;
 }
