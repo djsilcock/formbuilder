@@ -34,8 +34,19 @@
   },
   "devDependencies": {
     "@cypress/code-coverage": "1.14.0",
+    "@testing-library/react": "^9.4.1",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
+    "babel-eslint": "^10.0.3",
     "babel-plugin-istanbul": "5.2.0",
     "cypress": "4.5.0",
+    "eslint": "^5.16.0",
+    "eslint-config-react-app": "^5.2.0",
+    "eslint-plugin-flowtype": "^2.50.3",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
     "isomorphic-unfetch": "3.0.0",
     "istanbul-lib-coverage": "2.0.5",
     "next": "9.3.6",
@@ -43,7 +54,14 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "rimraf": "^3.0.2",
-    "start-server-and-test": "1.11.0"
+    "start-server-and-test": "1.11.0",
+    "typescript": "^3.9.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "plugin:react-hooks/recommended"
+    ]
   },
   "nyc": {
     "exclude": [

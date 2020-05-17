@@ -5,13 +5,17 @@ import {
   RadioField,
   DropdownField,
   DatePickerField,
-  ArrayPopupField,
-  ModalComponent,
+  //  ArrayPopupField,
+  //  ModalComponent,
 } from "../../";
+import React from "react";
 
-export default function TestForm(props) {
+export default function TestForm() {
   return (
     <Form
+      ref={(ref) => {
+        window.formcontroller = ref;
+      }}
       onSubmit={(values) => {
         window.formvalues = values;
       }}
@@ -35,7 +39,14 @@ export default function TestForm(props) {
       action=""
     >
       <TextField label="single input" name="singleinput" />
-      <TextField label="multiple input" multiline name="multipleinput" />
+      <TextField
+        label="multiple input"
+        multiline
+        name="multipleinput"
+        validate={{
+          minLength: { value: 4, message: "Must be at least 4 characters" },
+        }}
+      />
       <CheckboxField
         label="checkbox"
         name="checkboxfield"
@@ -43,6 +54,12 @@ export default function TestForm(props) {
           ["opt1", "CB Option 1"],
           ["opt2", "CB Option 2"],
         ]}
+        validate={{
+          minLength: { value: 1, message: "Must have at least 1 selected" },
+          validate: (v) => {
+            return `${v} is not acceptable`;
+          },
+        }}
       />
       <RadioField
         label="radio buttons"

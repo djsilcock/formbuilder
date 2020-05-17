@@ -8,6 +8,8 @@ import {
   Dropdown,
   Modal,
 } from "semantic-ui-react";
+import React from "react";
+import PropTypes from "prop-types";
 
 function Input({ refCallback, ...props }) {
   return (
@@ -17,6 +19,7 @@ function Input({ refCallback, ...props }) {
     />
   );
 }
+Input.propTypes = { refCallback: PropTypes.func };
 
 function TextArea({ refCallback, ...props }) {
   return (
@@ -26,5 +29,6 @@ function TextArea({ refCallback, ...props }) {
     />
   );
 }
+TextArea.propTypes = { refCallback: PropTypes.func };
 
 export { Button, Form, Input, TextArea, Radio, Checkbox, Dropdown, Modal };

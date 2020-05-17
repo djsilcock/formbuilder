@@ -29,3 +29,4 @@ export const ModalComponent = React.forwardRef(function ({ children }, ref) {
   }));
   return modalState;
 });
+ModalComponent.displayName = "ModalComponent";

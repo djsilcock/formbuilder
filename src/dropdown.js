@@ -4,8 +4,8 @@ import { get } from "lodash";
 import { Dropdown } from "semantic-ui-react";
 import { useFormContext, Controller } from "react-hook-form";
 import PropTypes from "prop-types";
-import { FormRow } from "./src/FormRow";
-import { expandValidator } from "./src/utils/getValidator";
+import { FormRow } from "./FormRow";
+import { getValidator } from "./utils/getValidator";
 
 export function DropdownComponent({
   search,
@@ -53,7 +53,7 @@ export function DropdownComponent({
       onChange={onChange}
       renderLabel={renderLabel}
       onAddItem={onAddItem}
-      rules={expandValidator(props)}
+      rules={getValidator(props)}
       closeOnChange={closeOnChange}
     />
   );

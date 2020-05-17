@@ -1,9 +1,9 @@
 /*eslint-disable react/prop-types*/
 
-export * from "./Form";
-export * from "./arraypopup";
-export * from "./basic";
-export * from "./checkbox";
-export * from "./datepicker";
-export * from "./dropdown";
-export * from "./modal";
+export * from "./src/Form";
+export * from "./src/arraypopup";
+export * from "./src/basic";
+export * from "./src/checkbox";
+export * from "./src/datepicker";
+export * from "./src/dropdown";
+export * from "./src/modal";

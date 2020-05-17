@@ -1,20 +1,25 @@
 import React from "react";
-import { Input, TextArea } from "./src/components";
+import { Input, TextArea } from "./components";
 import { useFormContext } from "react-hook-form";
-import { FormRow } from "./FormRow";
-import { expandValidator } from "./src/utils/getValidator";
+import { FormRow, FormRowProps } from "./FormRow";
+import { getValidator } from "./utils/getValidator";
 import PropTypes from "prop-types";
-export function TextField({ multiline, ...props }) {
+
+interface TextFieldProps extends FormRowProps {
+  multiline: boolean;
+}
+export function TextField({ multiline, ...props }: TextFieldProps) {
   const { register } = useFormContext();
-  const validate = expandValidator(props);
+  const validate = getValidator(props);
   const Component = multiline ? TextArea : Input;
   return (
-    <FormRow
-      component={Component}
-      id={`${props.name}-input`}
-      refCallback={register(validate)}
-      {...props}
-    />
+    <FormRow {...props}>
+      <Component
+        id={`${props.name}-input`}
+        refCallback={register(validate)}
+        {...props}
+      />
+    </FormRow>
   );
 }
 TextField.propTypes = { multiline: PropTypes.bool, name: PropTypes.string };

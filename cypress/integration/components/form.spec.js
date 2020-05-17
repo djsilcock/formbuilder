@@ -77,4 +77,36 @@ describe("basic functionality", () => {
       cy.contains("Reset").click();
     });
   });
+  context("form submission", () => {
+    it("should submit valid data", () => {
+      const formData = {
+        singleinput: "hello single input",
+        multipleinput: "hello multiple input",
+        datefield: "12/5/20",
+        checkboxfield: { opt1: true, opt2: false, root: "bla" },
+        radiofield: "opt1",
+        singledropdown: "opt2",
+        multidropdown: ["opt2"],
+      };
+      cy.window().then((window) => {
+        window.formcontroller.reset(formData);
+      });
+      cy.contains("Submit").click();
+      cy.window().its("formvalues").should("deep.equal", formData);
+    });
+    it("should reject invalid data", () => {
+      const formData = {
+        singleinput: "hello single input",
+        multipleinput: "hel",
+        datefield: "12/5/20",
+        singledropdown: "opt2",
+        multidropdown: ["opt2"],
+      };
+      cy.window().then((window) => {
+        window.formcontroller.reset(formData);
+      });
+      cy.contains("Submit").click();
+      cy.window().its("formvalues").should("not.deep.equal", formData);
+    });
+  });
 });
