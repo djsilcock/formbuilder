@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 type ValidateMode = "firstError" | "all";
 
 interface FormProps {
-  onSubmit(): void;
+  onSubmit(values:any): void;
   onCancel(): void;
   submitContent?: ReactNode;
   submitIcon?: string;
@@ -124,4 +124,4 @@ Form.propTypes = {
 };
 
 const fRForm = React.forwardRef(Form as any);
-export { fRForm as Form };
+export { Form };

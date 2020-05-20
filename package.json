@@ -28,13 +28,16 @@
     "build": "next build",
     "start": "next start",
     "e2e": "start-test dev 3000 cy:open",
+    "headlesse2e": "start-test dev 3000 cy:run",
     "cy:open": "cypress open",
+    "cy:run": "cypress run",
     "pree2e": "",
     "check-coverage-limits": "nyc report --reporter=text-summary --check-coverage --statements 100"
   },
   "devDependencies": {
     "@cypress/code-coverage": "1.14.0",
     "@testing-library/react": "^9.4.1",
+    "@types/node": "^14.0.1",
     "@typescript-eslint/eslint-plugin": "^2.19.2",
     "@typescript-eslint/parser": "^2.19.2",
     "babel-eslint": "^10.0.3",
