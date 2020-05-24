@@ -2,22 +2,24 @@
 import React from "react";
 import { Button } from "./components";
 import { FormRow } from "./FormRow";
+import { useFieldArray } from "react-hook-form";
 export function ArrayPopupComponent({
   name,
   summary,
   canAdd,
-  ModalForm,
+  onAddItem,
   onEditItem,
-  initVars = () => ({}),
 }) {
-  const modalController = React.useRef(null);
   const editFunc = React.useCallback(
     (values) => {
       if (onEditItem) return onEditItem(values);
-      if (!!ModalForm) return modalController.current.open(values);
     },
-    [onEditItem, ModalForm]
+    [onEditItem]
   );
+  const addFunc = React.useCallback(() => {
+    if (onAddItem) return onAddItem();
+    return editFunc({});
+  });
   const arrayhelpers = useFieldArray({ name });
   return (
     <>
@@ -25,8 +27,12 @@ export function ArrayPopupComponent({
         summary({
           value,
           remove: () => arrayhelpers.remove(index),
-          popup: async () => {
-            arrayhelpers.replace(index, await editFunc(value));
+          popup: () => {
+            editFunc(value)
+              .then((v) => arrayhelpers.replace(index, v))
+              .catch(() => {
+                return;
+              });
           },
         })
       )}
@@ -38,7 +44,7 @@ export function ArrayPopupComponent({
             as="a"
             onClick={(evt) => {
               evt.preventDefault();
-              editFunc(initVars())
+              addFunc()
                 .then(arrayhelpers.append)
                 .catch(() => {
                   return;
@@ -47,9 +53,6 @@ export function ArrayPopupComponent({
           />
         </div>
       ) : null}
-      {ModalForm
-        ? React.cloneElement(ModalForm, { ref: modalController })
-        : null}
     </>
   );
 }

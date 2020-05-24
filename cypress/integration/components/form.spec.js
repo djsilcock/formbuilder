@@ -1,3 +1,5 @@
+/*eslint-env mocha */
+/*global cy */
 describe("basic functionality", () => {
   it("displays", () => {
     cy.visit("http://localhost:3000/components/form");
@@ -83,13 +85,13 @@ describe("basic functionality", () => {
         singleinput: "hello single input",
         multipleinput: "hello multiple input",
         datefield: "12/5/20",
-        checkboxfield: { opt1: true, opt2: false, root: "bla" },
+        checkboxfield: ["opt2"],
         radiofield: "opt1",
         singledropdown: "opt2",
         multidropdown: ["opt2"],
       };
       cy.window().then((window) => {
-        window.formcontroller.reset(formData);
+        window.controller.formcontroller.current.reset(formData);
       });
       cy.contains("Submit").click();
       cy.window().its("formvalues").should("deep.equal", formData);
@@ -98,12 +100,14 @@ describe("basic functionality", () => {
       const formData = {
         singleinput: "hello single input",
         multipleinput: "hel",
+        checkboxfield: ["opt1"],
+        radiofield: "opt2",
         datefield: "12/5/20",
         singledropdown: "opt2",
         multidropdown: ["opt2"],
       };
       cy.window().then((window) => {
-        window.formcontroller.reset(formData);
+        window.controller.formcontroller.current.reset(formData);
       });
       cy.contains("Submit").click();
       cy.window().its("formvalues").should("not.deep.equal", formData);

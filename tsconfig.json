@@ -4,10 +4,7 @@
     "moduleResolution": "node",
     "module": "esnext",
     "target": "es5",
-    "lib": [
-      "es2015",
-      "dom"
-    ],
+    "lib": ["es2015", "dom"],
     "outDir": "lib",
     "allowSyntheticDefaultImports": true,
     "suppressImplicitAnyIndexErrors": true,
@@ -22,17 +19,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "files": [
-    "./index.js"
-  ],
+  "files": ["./index.js"],
   "compileOnSave": false,
   "buildOnSave": false,
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ]
+  "exclude": ["node_modules"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

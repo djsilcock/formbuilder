@@ -1,26 +1,46 @@
 import React from "react";
 import { Input, TextArea } from "./components";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, ValidationOptions } from "react-hook-form";
 import { FormRow, FormRowProps } from "./FormRow";
-import { getValidator } from "./utils/getValidator";
 import PropTypes from "prop-types";
 
-interface TextFieldProps extends FormRowProps {
-  multiline: boolean;
+interface TextComponentProps {
+  multiline?: boolean;
+  name: string;
+  placeholder?: string;
+  validation?: ValidationOptions;
 }
-export function TextField({ multiline, ...props }: TextFieldProps) {
+
+interface TAwithPrivate extends TextArea {
+  ref: React.MutableRefObject<HTMLTextAreaElement>;
+}
+interface InputWithPrivate extends Input {
+  inputRef: React.MutableRefObject<HTMLInputElement>;
+}
+export const TextComponent: React.FC<TextComponentProps> = ({
+  multiline,
+  name,
+  validation,
+  ...props
+}) => {
   const { register } = useFormContext();
-  const validate = getValidator(props);
-  const Component = multiline ? TextArea : Input;
-  return (
-    <FormRow {...props}>
-      <Component
-        id={`${props.name}-input`}
-        refCallback={register(validate)}
-        {...props}
-      />
-    </FormRow>
+  return multiline ? (
+    <TextArea
+      ref={(r: TAwithPrivate) => register(r.ref.current, validation)}
+      id={`${name}-input`}
+      {...props}
+    />
+  ) : (
+    <Input
+      ref={(r: InputWithPrivate) => register(r.inputRef.current, validation)}
+      id={`${name}-input`}
+      {...props}
+    />
   );
+};
+
+export function TextField(props: TextComponentProps & FormRowProps) {
+  return <FormRow component={TextComponent} {...props} />;
 }
 TextField.propTypes = { multiline: PropTypes.bool, name: PropTypes.string };
 TextField.defaultProps = { defaultValue: "" };

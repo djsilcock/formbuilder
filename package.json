@@ -2,7 +2,8 @@
   "name": "formbuilder",
   "version": "1.0.0",
   "description": "formbuilder component for datacollection",
-  "module": "index.js",
+  "module": "lib/es/index.js",
+  "main": "lib/cjs/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/djsilcock/formbuilder.git"
@@ -14,6 +15,8 @@
   },
   "homepage": "https://github.com/djsilcock/formbuilder#readme",
   "dependencies": {
+    "@types/react": "^16.9.35",
+    "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
     "react-hook-form": "^5.6.3",
     "semantic-ui-calendar-react": "^0.14.4",
@@ -31,7 +34,8 @@
     "headlesse2e": "start-test dev 3000 cy:run",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "pree2e": "",
+    "build:es": "tsc ./src/index.ts -d --outDir ./lib/es --jsx react --target es6 --esModuleInterop --module es2015 --moduleResolution node",
+    "build:cjs": "tsc ./src/index.ts -d --outDir ./lib/cjs --jsx react --target es6 --esModuleInterop --module commonjs --moduleResolution node",
     "check-coverage-limits": "nyc report --reporter=text-summary --check-coverage --statements 100"
   },
   "devDependencies": {

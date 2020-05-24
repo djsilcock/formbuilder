@@ -1,61 +1,72 @@
-import React, { JSXElementConstructor, ReactNode, ReactNodeArray } from "react";
+import React, {
+  JSXElementConstructor,
+  ReactNode,
+  ReactElement,
+  ReactNodeArray,
+} from "react";
 import PropTypes from "prop-types";
-import { Form, Message, Table } from "semantic-ui-react";
+import { Form, Message as Msg, Table } from "semantic-ui-react";
 import { useFormContext } from "react-hook-form";
 import { get } from "lodash";
 
+import { ValidationOptions } from "react-hook-form";
+
 export interface FormRowProps {
   name: string;
-  id: string;
+  id?: string;
+  required?: boolean;
   label: ReactNode;
   helptext?: ReactNode;
-  required?: boolean;
+  validation?: ValidationOptions;
 }
 interface FormRowComponentProps extends FormRowProps {
   component: JSXElementConstructor<any>;
 }
 interface FormRowChildrenProps extends FormRowProps {
-  children?: ReactNode | ReactNodeArray;
+  children: ReactNode;
 }
 
-function FormRow(props: FormRowChildrenProps);
-function FormRow(props: FormRowComponentProps);
-function FormRow(props: any) {
-  const {
-    name,
-    component: Component,
-    label,
-    helptext,
-    required,
-    children,
-  } = props;
+const FormRow: React.FC<FormRowChildrenProps | FormRowComponentProps> = ({
+  component: Component,
+  label,
+  id,
+  helptext,
+  children,
+  required = false,
+  validation = {},
+  ...componentprops
+}: any) => {
   const formContext = useFormContext();
   const errorMessage = get(formContext.errors, name, null);
+  if (required || validation.required) {
+    required = true;
+    validation.required = true;
+  }
+
+  Object.assign(componentprops, { id, validation });
+
   return (
     <Table.Row>
       <Table.Cell width={8}>
         <Form.Field required={required} error={!!errorMessage}>
-          <label htmlFor={props.id}>{label}</label>
+          <label htmlFor={id}>{label}</label>
         </Form.Field>
-        {helptext ? <Message info>{`${helptext}`}</Message> : null}
+        {helptext ? <Msg info>{`${helptext}`}</Msg> : null}
         {errorMessage && (
-          <Message error visible>
+          <Msg error visible>
             {errorMessage.message || "Please check your response here"}
-          </Message>
+          </Msg>
         )}
       </Table.Cell>
       <Table.Cell width={8}>
         <Form.Field error={!!errorMessage}>
-          {Component ? <Component name={name} {...props} /> : children}
+          {Component ? <Component {...componentprops} /> : children}
         </Form.Field>
       </Table.Cell>
     </Table.Row>
   );
-}
+};
 FormRow.propTypes = {
-  valid: PropTypes.bool,
-  errors: PropTypes.any,
-  display: PropTypes.bool,
   label: PropTypes.string,
   helptext: PropTypes.string,
   required: PropTypes.bool,
