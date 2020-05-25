@@ -4,6 +4,7 @@
   "description": "formbuilder component for datacollection",
   "module": "lib/es/index.js",
   "main": "lib/cjs/index.js",
+  "files":"lib/**",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/djsilcock/formbuilder.git"
@@ -32,6 +33,7 @@
     "start": "next start",
     "e2e": "start-test dev 3000 cy:open",
     "headlesse2e": "start-test dev 3000 cy:run",
+    "prepare":"npm run build:all",
     "pree2e": "npm run build:all",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
