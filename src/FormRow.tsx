@@ -30,6 +30,7 @@ const FormRow: React.FC<FormRowChildrenProps | FormRowComponentProps> = ({
   component: Component,
   label,
   id,
+  name,
   helptext,
   children,
   required = false,
@@ -42,8 +43,8 @@ const FormRow: React.FC<FormRowChildrenProps | FormRowComponentProps> = ({
     required = true;
     validation.required = true;
   }
-
-  Object.assign(componentprops, { id, validation });
+  id = id || `${name}-control`;
+  Object.assign(componentprops, { name, id, validation });
 
   return (
     <Table.Row>

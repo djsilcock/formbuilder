@@ -91,7 +91,7 @@ describe("basic functionality", () => {
         multidropdown: ["opt2"],
       };
       cy.window().then((window) => {
-        window.controller.formcontroller.current.reset(formData);
+        window.formcontroller.reset(formData);
       });
       cy.contains("Submit").click();
       cy.window().its("formvalues").should("deep.equal", formData);
@@ -107,7 +107,7 @@ describe("basic functionality", () => {
         multidropdown: ["opt2"],
       };
       cy.window().then((window) => {
-        window.controller.formcontroller.current.reset(formData);
+        window.formcontroller.reset(formData);
       });
       cy.contains("Submit").click();
       cy.window().its("formvalues").should("not.deep.equal", formData);

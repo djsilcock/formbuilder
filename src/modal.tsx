@@ -30,10 +30,10 @@ export const ModalComponent = ({ controller, children }: ModalProps) => {
     (): ModalController => ({
       open: (vars: object) => {
         return new Promise((resolve, reject) => {
+          defaultValues.current = vars;
           setModalState(true);
           resolveRef.current = resolve;
           rejectRef.current = reject;
-          defaultValues.current = vars;
         });
       },
       close: () => {

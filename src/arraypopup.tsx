@@ -2,7 +2,7 @@
 import React from "react";
 import { Button } from "./components";
 import { FormRow } from "./FormRow";
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 export function ArrayPopupComponent({
   name,
   summary,
@@ -19,8 +19,9 @@ export function ArrayPopupComponent({
   const addFunc = React.useCallback(() => {
     if (onAddItem) return onAddItem();
     return editFunc({});
-  });
+  }, [onAddItem]);
   const arrayhelpers = useFieldArray({ name });
+  const formContext = useFormContext();
   return (
     <>
       {arrayhelpers.fields.map((value, index) =>
@@ -29,7 +30,7 @@ export function ArrayPopupComponent({
           remove: () => arrayhelpers.remove(index),
           popup: () => {
             editFunc(value)
-              .then((v) => arrayhelpers.replace(index, v))
+              .then((v) => formContext.setValue(`${name}[${index}]`, v))
               .catch(() => {
                 return;
               });

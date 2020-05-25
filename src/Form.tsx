@@ -69,25 +69,26 @@ export const Form = (props: FormProps) => {
         <Table selectable>
           <Table.Body>{children}</Table.Body>
         </Table>
+
+        <Button
+          icon={submitIcon}
+          content={submitContent}
+          type="submit"
+          onClick={formContext.handleSubmit(onSubmit)}
+        />
+        <Button
+          icon={resetIcon}
+          content={resetContent}
+          type="button"
+          onClick={formContext.reset.bind(null, defaultValues)}
+        />
+        <Button
+          icon={cancelIcon}
+          content={cancelContent}
+          type="button"
+          onClick={onCancel}
+        />
       </SUIForm>
-      <Button
-        icon={submitIcon}
-        content={submitContent}
-        type="submit"
-        onClick={formContext.handleSubmit(onSubmit)}
-      />
-      <Button
-        icon={resetIcon}
-        content={resetContent}
-        type="button"
-        onClick={formContext.reset.bind(null, defaultValues)}
-      />
-      <Button
-        icon={cancelIcon}
-        content={cancelContent}
-        type="button"
-        onClick={onCancel}
-      />
     </FormContext>
   );
 };

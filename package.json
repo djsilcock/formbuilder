@@ -32,10 +32,12 @@
     "start": "next start",
     "e2e": "start-test dev 3000 cy:open",
     "headlesse2e": "start-test dev 3000 cy:run",
+    "pree2e": "npm run build:all",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "build:es": "tsc ./src/index.ts -d --outDir ./lib/es --jsx react --target es6 --esModuleInterop --module es2015 --moduleResolution node",
     "build:cjs": "tsc ./src/index.ts -d --outDir ./lib/cjs --jsx react --target es6 --esModuleInterop --module commonjs --moduleResolution node",
+    "build:all": "npm run build:es && npm run build:cjs",
     "check-coverage-limits": "nyc report --reporter=text-summary --check-coverage --statements 100"
   },
   "devDependencies": {

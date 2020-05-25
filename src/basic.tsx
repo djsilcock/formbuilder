@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 interface TextComponentProps {
   multiline?: boolean;
   name: string;
+  id?: string;
   placeholder?: string;
   validation?: ValidationOptions;
 }
@@ -21,19 +22,24 @@ export const TextComponent: React.FC<TextComponentProps> = ({
   multiline,
   name,
   validation,
+  id,
   ...props
 }) => {
   const { register } = useFormContext();
   return multiline ? (
     <TextArea
-      ref={(r: TAwithPrivate) => register(r.ref.current, validation)}
-      id={`${name}-input`}
+      ref={(r: TAwithPrivate) => register(r && r.ref.current, validation)}
+      id={id}
+      name={name}
       {...props}
     />
   ) : (
     <Input
-      ref={(r: InputWithPrivate) => register(r.inputRef.current, validation)}
-      id={`${name}-input`}
+      ref={(r: InputWithPrivate) =>
+        register(r && r.inputRef.current, validation)
+      }
+      id={id}
+      name={name}
       {...props}
     />
   );

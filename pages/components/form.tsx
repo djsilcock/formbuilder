@@ -11,7 +11,6 @@ import {
 import React from "react";
 import { useForm } from "react-hook-form";
 export default function TestForm() {
-  const modalcontroller = React.useRef();
   const formContext = useForm({
     mode: "onSubmit",
     reValidateMode: "onChange",
@@ -23,7 +22,7 @@ export default function TestForm() {
     submitFocusError: true,
   });
   React.useEffect(() => {
-    Object.assign(window, { modalcontroller });
+    Object.assign(window, { formcontroller: formContext });
   }, []);
 
   return (
@@ -62,9 +61,6 @@ export default function TestForm() {
           ]}
           validation={{
             minLength: { value: 1, message: "Must have at least 1 selected" },
-            validate: (v) => {
-              return `${v} is not acceptable`;
-            },
           }}
         />
         <RadioField
@@ -94,9 +90,6 @@ export default function TestForm() {
           ]}
         />
       </Form>
-      <ModalComponent controller={modalcontroller}>
-        <TextField name="hello" label="Modal field" />
-      </ModalComponent>
     </>
   );
 }
