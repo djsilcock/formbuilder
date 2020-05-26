@@ -2,10 +2,9 @@
   "name": "formbuilder",
   "version": "1.0.0",
   "description": "formbuilder component for datacollection",
-  "module": "index.js",
-  "scripts": {
-    "test": "jest"
-  },
+  "module": "lib/es/index.js",
+  "main": "lib/cjs/index.js",
+  "files":"lib/**",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/djsilcock/formbuilder.git"
@@ -17,14 +16,67 @@
   },
   "homepage": "https://github.com/djsilcock/formbuilder#readme",
   "dependencies": {
-    "formik": "^2.1.4",
-    "immutable": "^4.0.0-rc.12",
+    "@types/react": "^16.9.35",
+    "lodash": "^4.17.15",
+    "prop-types": "^15.7.2",
+    "react-hook-form": "^5.6.3",
     "semantic-ui-calendar-react": "^0.14.4",
-    "semantic-ui-react": "^0.88.0",
-    "yup": "^0.28.0"
+    "semantic-ui-react": "^0.88.0"
   },
   "peerDependencies": {
     "react": "^16.13.0",
     "react-dom": "^16.13.0"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "e2e": "start-test dev 3000 cy:open",
+    "headlesse2e": "start-test dev 3000 cy:run",
+    "prepare":"npm run build:all",
+    "pree2e": "npm run build:all",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "build:es": "tsc ./src/index.ts -d --outDir ./lib/es --jsx react --target es6 --esModuleInterop --module es2015 --moduleResolution node",
+    "build:cjs": "tsc ./src/index.ts -d --outDir ./lib/cjs --jsx react --target es6 --esModuleInterop --module commonjs --moduleResolution node",
+    "build:all": "npm run build:es && npm run build:cjs",
+    "check-coverage-limits": "nyc report --reporter=text-summary --check-coverage --statements 100"
+  },
+  "devDependencies": {
+    "@cypress/code-coverage": "1.14.0",
+    "@testing-library/react": "^9.4.1",
+    "@types/node": "^14.0.1",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
+    "babel-eslint": "^10.0.3",
+    "babel-plugin-istanbul": "5.2.0",
+    "cypress": "4.5.0",
+    "eslint": "^5.16.0",
+    "eslint-config-react-app": "^5.2.0",
+    "eslint-plugin-flowtype": "^2.50.3",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "isomorphic-unfetch": "3.0.0",
+    "istanbul-lib-coverage": "2.0.5",
+    "next": "9.3.6",
+    "nyc": "14.1.1",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "rimraf": "^3.0.2",
+    "start-server-and-test": "1.11.0",
+    "typescript": "^3.9.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "plugin:react-hooks/recommended"
+    ]
+  },
+  "nyc": {
+    "exclude": [
+      "pages/api/__coverage__.js"
+    ]
   }
 }
