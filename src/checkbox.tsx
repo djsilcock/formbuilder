@@ -56,10 +56,10 @@ export const BaseCheckboxComponent: React.FC<BaseCheckboxProps> = ({
   );
 };
 BaseCheckboxComponent.propTypes = {
-  numCols: PropTypes.number,
+  numCols: PropTypes.oneOf([1, 2, 3, 4, 5]),
   options: PropTypes.array,
   name: PropTypes.string,
-  type: PropTypes.string,
+  type: PropTypes.oneOf(["checkbox", "radio"]),
 };
 
 export function RadioComponent(props: CheckboxRadioProps) {
