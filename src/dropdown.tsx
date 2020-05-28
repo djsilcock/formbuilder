@@ -81,26 +81,8 @@ export function DropdownComponent(props: any) {
   );
 }
 
-DropdownComponent.propTypes = {
-  search: PropTypes.bool,
-  optionsfrom: PropTypes.func,
-  label: PropTypes.string,
-  errors: PropTypes.any,
-  placeholder: PropTypes.string,
-  name: PropTypes.string,
-  requiredif: PropTypes.func,
-  enabledif: PropTypes.func,
-  displayif: PropTypes.func,
-  options: PropTypes.array,
-  multiple: PropTypes.bool,
-  allowNew: PropTypes.bool,
-  addItem: PropTypes.func,
-  closeOnChange: PropTypes.bool,
-};
-
 export function DropdownField(
   props: (DropdownPropsWithAdditions | DropdownPropsCore) & FormRowProps
 ) {
   return <FormRow component={DropdownComponent} id={props.name} {...props} />;
 }
-DropdownField.propTypes = { name: PropTypes.string };

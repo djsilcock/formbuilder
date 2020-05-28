@@ -92,24 +92,3 @@ export const Form = (props: FormProps) => {
     </FormContext>
   );
 };
-
-Form.propTypes = {
-  onSubmit: PropTypes.func,
-  onCancel: PropTypes.func,
-  submitContent: PropTypes.node,
-  submitIcon: PropTypes.string,
-  cancelContent: PropTypes.node,
-  cancelIcon: PropTypes.string,
-  resetContent: PropTypes.node,
-  resetIcon: PropTypes.string,
-  mode: PropTypes.oneOf(["onSubmit", "onChange", "onBlur"]),
-  reValidateMode: PropTypes.oneOf(["onSubmit", "onChange", "onBlur"]),
-  defaultValues: PropTypes.object,
-  validationSchema: PropTypes.any, // Note: will be deprecated in the next major version with validationResolver
-  validationResolver: PropTypes.func,
-  validationContext: PropTypes.any,
-  validateCriteriaMode: PropTypes.oneOf(["firstError", "all"]),
-  submitFocusError: PropTypes.bool,
-  children: PropTypes.node,
-  action: PropTypes.string,
-};

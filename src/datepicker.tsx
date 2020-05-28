@@ -36,13 +36,9 @@ export function DatePickerComponent({
     />
   );
 }
-DatePickerComponent.propTypes = {
-  name: PropTypes.string,
-  placeholder: PropTypes.string,
-};
+
 interface DatePickerFieldProps extends FormRowProps, DatePickerProps {}
 export function DatePickerField(props: DatePickerFieldProps) {
   return <FormRow component={DatePickerComponent} id={props.name} {...props} />;
 }
 DatePickerField.getDefaultValue = () => "";
-DatePickerField.propTypes = { name: PropTypes.string };

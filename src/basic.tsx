@@ -48,7 +48,7 @@ export const TextComponent: React.FC<TextComponentProps> = ({
 export function TextField(props: TextComponentProps & FormRowProps) {
   return <FormRow component={TextComponent} {...props} />;
 }
-TextField.propTypes = { multiline: PropTypes.bool, name: PropTypes.string };
+
 TextField.defaultProps = { defaultValue: "" };
 TextField.getDefaultValue = () => {};
 
@@ -56,4 +56,3 @@ export function HiddenComponent({ name }) {
   const { register } = useFormContext();
   return <input ref={register} name={name} />;
 }
-HiddenComponent.propTypes = { name: PropTypes.string };

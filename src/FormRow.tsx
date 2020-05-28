@@ -67,15 +67,7 @@ const FormRow: React.FC<FormRowChildrenProps | FormRowComponentProps> = ({
     </Table.Row>
   );
 };
-FormRow.propTypes = {
-  label: PropTypes.string,
-  helptext: PropTypes.string,
-  required: PropTypes.bool,
-  children: PropTypes.any,
-  name: PropTypes.string,
-  component: PropTypes.elementType,
-  id: PropTypes.string,
-};
+
 FormRow.displayName = "FormRow";
 
 export { FormRow };
