@@ -4,7 +4,9 @@
   "description": "formbuilder component for datacollection",
   "module": "lib/es/index.js",
   "main": "lib/cjs/index.js",
-  "files":"lib/**",
+  "files": [
+    "lib/**"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/djsilcock/formbuilder.git"
@@ -33,17 +35,14 @@
     "start": "next start",
     "e2e": "start-test dev 3000 cy:open",
     "headlesse2e": "start-test dev 3000 cy:run",
-    "prepare":"npm run build:all",
-    "pree2e": "npm run build:all",
+    "prepare": "npm run build:all",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "build:es": "tsc ./src/index.ts -d --outDir ./lib/es --jsx react --target es6 --esModuleInterop --module es2015 --moduleResolution node",
     "build:cjs": "tsc ./src/index.ts -d --outDir ./lib/cjs --jsx react --target es6 --esModuleInterop --module commonjs --moduleResolution node",
-    "build:all": "npm run build:es && npm run build:cjs",
-    "check-coverage-limits": "nyc report --reporter=text-summary --check-coverage --statements 100"
+    "build:all": "npm run build:es && npm run build:cjs"
   },
   "devDependencies": {
-    "@cypress/code-coverage": "1.14.0",
     "@testing-library/react": "^9.4.1",
     "@types/node": "^14.0.1",
     "@typescript-eslint/eslint-plugin": "^2.19.2",
@@ -60,10 +59,9 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "isomorphic-unfetch": "3.0.0",
     "istanbul-lib-coverage": "2.0.5",
-    "next": "9.3.6",
-    "nyc": "14.1.1",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "next": "^9.4.0",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
     "rimraf": "^3.0.2",
     "start-server-and-test": "1.11.0",
     "typescript": "^3.9.2"
@@ -72,11 +70,6 @@
     "extends": [
       "react-app",
       "plugin:react-hooks/recommended"
-    ]
-  },
-  "nyc": {
-    "exclude": [
-      "pages/api/__coverage__.js"
     ]
   }
 }
