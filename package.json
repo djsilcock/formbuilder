@@ -59,7 +59,7 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "isomorphic-unfetch": "3.0.0",
     "istanbul-lib-coverage": "2.0.5",
-    "next": "^9.4.0",
+    "next": "^11.1.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "rimraf": "^3.0.2",
